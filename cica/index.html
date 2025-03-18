@@ -154,6 +154,10 @@
                 div.appendChild(divdiv);
             }
         }
+
+        for (let i of document.querySelectorAll("input")) {
+            i.onchange = render;
+        }
     </script>
 </body>
 
