@@ -1,12 +1,143 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Redirect</title>
-    <link rel="canonical" href="https://www.youtube.com/watch?v=_yqSbnbUsj4" />
-    <meta charset="utf-8" />
-    <meta http-equiv="refresh" content="0; url=https://www.youtube.com/watch?v=_yqSbnbUsj4" />
-  </head>
-  <body>
-    <p>Redirecting to https://www.youtube.com/watch?v=_yqSbnbUsj4</p>
-  </body>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        .render {
+            background: url(/kartya.png) no-repeat;
+            width: 550px;
+            height: 400px;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .render h1 {
+            font-size: 2em;
+            padding-top: 4%;
+            margin: 0;
+            text-align: center;
+        }
+
+        .render img {
+            margin-top: 3%;
+            height: 55%;
+            max-width: 95%;
+        }
+
+        .render div {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .render div p {
+            margin: 5% 7%;
+            font-size: 36px;
+        }
+
+        .render div p#n1 {
+            order: 1;
+        }
+
+        .render div p#n2 {
+            order: 3;
+        }
+
+        .render div ul {
+            order: 2;
+            margin: 0;
+            margin-top: 2%;
+        }
+    </style>
+    <input type="text" value="Név">
+    <form id="radio">
+        <input type="radio" name="A" value="0" checked>
+        <label for="0">Első kép</label>
+        <input type="radio" name="A" value="1">
+        <label for="1">Második kép</label>
+        <input type="radio" name="A" value="2">
+        <label for="2">Harmadik kép</label>
+        <input type="radio" name="A" value="3">
+        <label for="3">Negyedik kép</label>
+    </form>
+    <form id="check">
+        <input type="checkbox" name="B" value="0">
+        <label>Leírás első sor</label>
+        <input type="checkbox" name="B" value="1">
+        <label>Leírás második sor</label>
+        <input type="checkbox" name="B" value="2">
+        <label>Leírás harmadik sor</label>
+        <input type="checkbox" name="B" value="3">
+        <label>Leírás negyedik sor</label>
+    </form>
+    <input type="number" id="1" placeholder="Erő (P)">
+    <input type="number" id="2" placeholder="Életerő (HP)">
+    <br>
+    <button onclick="render()">Render</button>
+    <br>
+    <div class="render"></div>
+    <footer>Képek: <a href="https://thecatapi.com">thecatapi.com</a></footer>
+    <script>
+        let imgs = [];
+        fetch("https://api.thecatapi.com/v1/images/search?limit=4").then(r => r.json()).then(x => x.map(y => y.url)).then(z => imgs.push(z));
+        const liTexts = ["budos", "alpari", "semmittevo", "lusta"]
+        const text = document.querySelector("input[type='text']");
+        const radio = document.getElementById("radio");
+        const check = document.getElementById("check");
+        const num1 = document.getElementById("1");
+        const num2 = document.getElementById("2");
+
+        const render = () => {
+            const div = document.querySelector(".render")
+            let h1 = document.querySelector(".render h1") ?? document.createElement("h1");
+            h1.textContent = text.value;
+            div.appendChild(h1);
+
+            let img = document.querySelector(".render img") ?? document.createElement("img");
+            let num = 0;
+            img.src = imgs[0][document.querySelector("#radio>input:checked").value];
+            div.appendChild(img);
+
+            let divdiv = document.querySelector(".render > div") ?? document.createElement("div")
+            let checks = document.querySelectorAll("#check>input:checked")
+            let ul = document.querySelector(".render > div > ul") ?? document.createElement("ul")
+            ul.innerHTML = '';
+            checks.forEach((element, i) => {
+                const li = document.createElement("li");
+                li.textContent = liTexts[Number(i)]
+                ul.appendChild(li)
+            });
+            divdiv.appendChild(ul)
+
+
+            let n1 = document.querySelector(".render > div > #n1") ?? document.createElement("p")
+            n1.id = "n1";
+            n1.textContent = num1.value;
+            divdiv.appendChild(n1)
+            let n2 = document.querySelector(".render > div > #n2") ?? document.createElement("p")
+            n2.id = "n2";
+            n2.textContent = num2.value;
+            divdiv.appendChild(n2)
+            div.appendChild(divdiv)
+
+
+            if (!document.body.contains(div)) {
+                document.body.appendChild(div);
+            } else {
+                div.innerHTML = '';
+                div.appendChild(h1);
+                div.appendChild(img);
+                div.appendChild(divdiv);
+            }
+        }
+    </script>
+</body>
+
 </html>
