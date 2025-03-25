@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="title" content="Pearoo">
+    <meta name="description" content="CICAGENERÁTOR!!!">
+    <meta name="theme-color" content="#0a0a0a">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pearoo.dev/">
+    <meta property="og:site_name" content="Pearoo">
+    <meta property="og:title" content="Cica generátor">
+    <meta property="og:description" content="webprogramozás feladatra készült de vicci úgyhogy felraktam ide">
+    <meta property="og:image" itemprop="image" content="/assets/img/pfp.webp">
+    <meta property="og:image:secure_url" itemprop="image" content="/assets/img/pfp.webp">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="200">
+    <meta property="og:image:height" content="200">
+    <link rel="shortcut icon" href="/assets/img/favicon.webp">
+    <title>Cica generátor</title>
+</head>
+
+<body>
+    <style>
+        .render {
+            background: url(/assets/img/kartya.png) no-repeat;
+            width: 550px;
+            height: 400px;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .render h1 {
+            font-size: 2em;
+            padding-top: 4%;
+            margin: 0;
+            text-align: center;
+        }
+
+        .render img {
+            margin-top: 3%;
+            height: 55%;
+            max-width: 95%;
+        }
+
+        .render div {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .render div p {
+            margin: 5% 7%;
+            font-size: 36px;
+        }
+
+        .render div p#n1 {
+            order: 1;
+        }
+
+        .render div p#n2 {
+            order: 3;
+        }
+
+        .render div ul {
+            order: 2;
+            margin: 0;
+            margin-top: 2%;
+        }
+    </style>
+    <div class="render"></div>
+    <button onclick="render()">Fight</button>
+    <footer>Képek: <a href="https://thecatapi.com">thecatapi.com</a></footer>
+    <script>
+        let imgs = [];
+        fetch("https://api.thecatapi.com/v1/images/search?limit=4").then(r => r.json()).then(x => x.map(y => y.url)).then(z => imgs.push(z));
+        const liTexts = ["budos", "alpari", "semmittevo", "lusta"]
+        const names = ["Cat", "Dog", "Snake", "Lizard", "Fly", "Mosquito"]
+        const suffixes = ["Great", "Amazing", "Freaky", "Scary", "Fear-mongerer", "Jhin one-trick"]
+
+        const render = () => {
+            const div = document.querySelector(".render");
+            let h1 = document.querySelector(".render h1") ?? document.createElement("h1");
+            h1.textContent = names[Math.floor(Math.random() * names.length)] + " the " + suffixes[Math.floor(Math.random() * suffixes.length)];
+            div.appendChild(h1);
+
+            const img = document.querySelector(".render img") ?? document.createElement("img")
+            img.src = imgs[0][Math.floor(Math.random() * imgs.length)];
+            div.appendChild(img);
+
+            let divdiv = document.querySelector(".render > div") ?? document.createElement("div")
+
+
+            let n1 = document.querySelector(".render > div > #n1") ?? document.createElement("p")
+            n1.id = "n1";
+            n1.textContent = Math.floor(Math.random() * 20);
+            divdiv.appendChild(n1)
+            let n2 = document.querySelector(".render > div > #n2") ?? document.createElement("p")
+            n2.id = "n2";
+
+            n2.textContent = Math.floor(Math.random() * 20);
+            divdiv.appendChild(n2)
+            div.appendChild(divdiv)
+
+
+            if (!document.body.contains(div)) {
+                document.body.appendChild(div);
+            } else {
+                div.innerHTML = '';
+                div.appendChild(h1);
+                div.appendChild(img);
+                div.appendChild(divdiv);
+            }
+        }
+    </script>
+</body>
+
+</html>
